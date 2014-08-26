@@ -299,9 +299,12 @@ function formatlocation($dec, $format,$which){
 	$dir['long']['+'] = "W";
 	$dir['long']['-'] = "E";
 
+	$deg_z = "%03d";
 	switch($format){
+	case "dMS":
+	$deg_z = "%d";
 	case "DMS":
-		$de = $dec;
+		$de = abs($dec);
 		$deg = floor($de);
 		$de = 60 * ($de-$deg);
 		$min = floor($de);
@@ -309,12 +312,13 @@ function formatlocation($dec, $format,$which){
 		$sec = round($de);	
 	
 		$sign = $dec > 0 ? "+" : "-";	
-		$ret = sprintf("%03d".chr(176)."%02d'%02d\"%s", $deg,$min,$sec,$dir[$which][$sign]);
+		$ret = sprintf("{$deg_z}&deg;%02d'%02d\"%s", $deg,$min,$sec,$dir[$which][$sign]);
 	
 	break;
+	
 	}
 
-	return $ret;
+	return htmlspecialchars($ret);
 }
 }
 ?>
